@@ -1,0 +1,4 @@
+Number of samples: 100
+unique dates: 73
+variable sites in DNA: 13
+variable sites in protein: 13
