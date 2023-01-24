@@ -34,6 +34,13 @@ def Protein_fasta(dna_sequences):
     return protein_sequences
 with open('ExampleAlignment.fasta', 'r') as ea:
         fasta = ea.readlines()
+        
+def Unique_Sequences(sequences):
+    uniq_seqs = [sequences[0]]
+    for seq in sequences:
+        if seq not in uniq_seqs:
+            uniq_seqs.append(seq)
+    return uniq_seqs
 
 sequences = []
 dates = []
@@ -50,8 +57,21 @@ unique_dates = len(dates)
 
 vs_in_dna = Find_VarSites(sequences)
 protein_sequences = Protein_fasta(sequences)
-vs_in_protein = Find_VarSites(sequences)
+vs_in_protein = Find_VarSites(protein_sequences)
+uniq_dna_seqs = Unique_Sequences(sequences)
+uniq_protein_seqs = Unique_Sequences(protein_sequences)
 
+with open("unique_sequences/unique_dna_sequences.txt","w") as uds:
+    count = 0
+    for i in uniq_dna_seqs:
+        uds.write(">" + str(count) + "\n" + i +"\n")
+        count +=1
+with open("unique_sequences/unique_protein_sequences.txt","w") as ups:
+    count = 0
+    for i in uniq_protein_seqs:
+        ups.write(">"+ str(count)+"\n" + str(i) +"\n")
+        count +=1
+    
 with open('log.txt', 'w') as log:
     log.write('Number of samples: '+ str(num_of_samples) + '\nunique dates: ' + str(unique_dates) +
             '\nvariable sites in DNA: ' + str(vs_in_dna) + '\nvariable sites in protein: ' + str(vs_in_protein))
