@@ -42,12 +42,20 @@ def Unique_Sequences(sequences):
             uniq_seqs.append(seq)
     return uniq_seqs
 
-sequences = []
+def Add_Sequences_to_100_Directories(ds, ps):
+#     path = 'wsl.localhost\Ubuntu\home\dantecelani\sequence-processing-intro'
+    for i in range (0,99):
+        with open('sample_'+str(i)+'/sample_'+str(i)+'.txt', 'w') as file:
+            file.write(str(ds[i]))
+            file.write('\n')
+            file.write(str(ps[i]))
+
+dna_sequences = []
 dates = []
 num_of_samples = 0
 for line in fasta:
     if line[0] != ">":
-        sequences.append(line.strip())
+        dna_sequences.append(line.strip())
     else:
         num_of_samples += 1
         str_start = line.find('_')
@@ -55,11 +63,12 @@ for line in fasta:
         Unique_Dates(line[str_start+1 :str_end], dates)
 unique_dates = len(dates)
 
-vs_in_dna = Find_VarSites(sequences)
-protein_sequences = Protein_fasta(sequences)
+vs_in_dna = Find_VarSites(dna_sequences)
+protein_sequences = Protein_fasta(dna_sequences)
 vs_in_protein = Find_VarSites(protein_sequences)
-uniq_dna_seqs = Unique_Sequences(sequences)
+uniq_dna_seqs = Unique_Sequences(dna_sequences)
 uniq_protein_seqs = Unique_Sequences(protein_sequences)
+Add_Sequences_to_100_Directories(dna_sequences, protein_sequences)
 
 with open("unique_sequences/unique_dna_sequences.txt","w") as uds:
     count = 0
